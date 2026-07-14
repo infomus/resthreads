@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ResThreads — Prospects chat with real residents. You sign more leases.</title>
+<meta name="description" content="ResThreads lets prospective renters chat with residents who actually live in your community. Every conversation is attributed to the lease it signs.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='42' rx='12' fill='%231E3A2B'/%3E%3Cpath d='M18 50 L18 60 L30 50 Z' fill='%231E3A2B'/%3E%3Crect x='10' y='14' width='44' height='30' rx='8' fill='none' stroke='%23B98A2F' stroke-width='2.5' stroke-dasharray='5 5'/%3E%3Crect x='27' y='24' width='10' height='20' rx='5' fill='%23B98A2F'/%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+  :root{
+    --spruce:#1E3A2B; --spruce-deep:#16291F; --spruce-mid:#2E5240;
+    --brass:#B98A2F; --brass-bright:#D4A94E;
+    --paper:#FBFAF6; --sage:#EAF0E7; --line:#E2E5DE;
+    --ink:#232B26; --muted:#5C6B60; --card:#FFFFFF;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-weight:700;letter-spacing:-0.015em;line-height:1.18;text-wrap:balance}
+  h2{font-size:clamp(24px,3vw,31px)}
+  h3{font-size:17.5px;letter-spacing:-0.01em}
+  p{max-width:62ch}
+  a.btn{display:inline-block;font-weight:600;font-size:15.5px;padding:12px 22px;border-radius:6px;text-decoration:none}
+  .btn-primary{background:var(--brass);color:#1E1608}
+  .btn-primary:hover{background:var(--brass-bright)}
+  .btn-quiet{color:var(--paper);border:1px solid rgba(251,250,246,.35)}
+  .btn-quiet:hover{border-color:rgba(251,250,246,.7)}
+  a.btn:focus-visible{outline:3px solid var(--brass-bright);outline-offset:2px}
+  section{padding:84px 0;border-top:1px solid var(--line)}
+  .sub{color:var(--muted);margin-top:10px}
+
+  /* nav */
+  .nav{background:var(--spruce);padding:16px 0}
+  .nav .wrap{display:flex;align-items:center;gap:28px}
+  .logo{display:flex;align-items:center;gap:9px;color:var(--paper);text-decoration:none;margin-right:auto}
+  .logo b{font-family:var(--serif);font-size:20px;font-weight:600}
+  .logo b span{color:var(--brass-bright)}
+  .nav a.nlink{color:#B7C7BB;text-decoration:none;font-size:14.5px}
+  .nav a.nlink:hover{color:var(--paper)}
+  .nav .btn{padding:9px 16px;font-size:14px}
+
+  /* hero */
+  .hero{background:var(--spruce);color:var(--paper);padding:76px 0 84px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  .hero h1{font-size:clamp(32px,4.2vw,46px);color:#FDFCF9}
+  .hero .lede{color:#C9D6CC;font-size:17.5px;margin-top:18px;max-width:30em}
+  .hero .lede q{font-family:var(--serif);font-style:italic;color:#E9E2CE;quotes:"\201C" "\201D"}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .deal{margin-top:26px;border-left:3px solid var(--brass);padding:2px 0 2px 14px;font-size:15px;color:#E4DCC4;max-width:30em}
+  .deal strong{color:#F0E6C8;font-weight:600}
+  .tick{margin-top:14px;font-size:13px;color:#8FA396}
+
+  /* product mock — replaced by real screenshots as they land */
+  .mock{background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(10,20,14,.45);font-size:13px;color:var(--ink)}
+  .mock-bar{display:flex;align-items:center;gap:6px;background:#EFEDE6;padding:9px 12px;font-size:11.5px;color:#8B8B83}
+  .mock-bar i{width:9px;height:9px;border-radius:50%;background:#D8D5CB;display:inline-block}
+  .mock-bar .url{margin-left:8px;background:#FFFFFF;border-radius:4px;padding:2px 10px}
+  .mock-body{padding:16px}
+  .mock-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #EEECE4;margin-bottom:12px}
+  .mock-head b{font-size:13.5px}
+  .avset{display:flex}
+  .av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;border:2px solid #fff}
+  .avset .av{margin-left:-7px}
+  .res{display:flex;gap:10px;align-items:center;background:var(--sage);border-radius:8px;padding:10px 12px;margin-bottom:12px}
+  .res .av{width:34px;height:34px;font-size:13px;border:0}
+  .res .nm{font-weight:600;font-size:13px}
+  .res .meta{color:var(--muted);font-size:11.5px}
+  .chip{display:inline-block;background:#fff;border:1px solid #DCE3DA;border-radius:99px;padding:1px 8px;font-size:10.5px;color:var(--muted);margin:4px 4px 0 0}
+  .bub{max-width:82%;padding:9px 12px;border-radius:12px;margin-bottom:8px;line-height:1.45}
+  .bub.in{background:#F1EFE8;border-bottom-left-radius:4px}
+  .bub.out{background:var(--spruce-mid);color:#F2F5F0;margin-left:auto;border-bottom-right-radius:4px}
+  .evt{text-align:center;font-size:11px;color:var(--muted);margin:10px 0 2px}
+  .evt .tag{margin-right:6px}
+  .guard{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted);margin-top:10px}
+  .guard i{width:6px;height:6px;border-radius:50%;background:var(--brass);display:inline-block}
+
+  /* card rows */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
+  .cols.two{grid-template-columns:repeat(2,1fr);max-width:840px}
+  .col h3{margin-bottom:8px}
+  .col p{font-size:15px;color:var(--muted)}
+
+  /* anonymous-traffic ledger */
+  .ledger{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;font-size:13px}
+  .ledger h4{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:10px}
+  .lrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #EDEBE3}
+  .lrow:last-child{border-bottom:0}
+  .lrow.dim{color:#A6B0A8}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px}
+  .step .k{font-size:12.5px;font-weight:600;color:var(--brass);margin-bottom:10px}
+  .step p{font-size:14.5px;color:var(--muted);margin-top:6px}
+  .step .mini{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:12px}
+  .mini .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #EDEBE3}
+  .mini .row:last-child{border-bottom:0}
+  .tag{font-size:10.5px;font-weight:600;border-radius:4px;padding:2px 7px}
+  .tag.ok{background:#E3EFE4;color:#2F6D3C}
+  .tag.mid{background:#F3EEDD;color:#8A6A1E}
+
+  /* privacy */
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:8px}
+  ul.checks{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:11px}
+  ul.checks li{padding-left:28px;position:relative;font-size:15.5px}
+  ul.checks li::before{content:"";position:absolute;left:0;top:7px;width:13px;height:7px;
+    border-left:2.5px solid var(--spruce-mid);border-bottom:2.5px solid var(--spruce-mid);transform:rotate(-45deg)}
+  .digest{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;font-size:13px}
+  .digest h4{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:14px}
+  .digest .drow{display:grid;grid-template-columns:110px 1fr 44px;gap:12px;align-items:center;margin-bottom:12px}
+  .digest .bar{height:7px;border-radius:99px;background:var(--sage);overflow:hidden}
+  .digest .bar i{display:block;height:100%;background:var(--spruce-mid)}
+  .digest .pct{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+
+  /* pricing band */
+  .price{background:var(--spruce);color:var(--paper);border-top:0}
+  .price h2{color:#FDFCF9}
+  .price .sub{color:#A9BCAE}
+  .figures{display:flex;gap:56px;flex-wrap:wrap;margin-top:38px}
+  .fig strong{display:block;font-size:34px;font-weight:700;letter-spacing:-0.02em;color:var(--brass-bright);font-variant-numeric:tabular-nums}
+  .fig span{font-size:14px;color:#A9BCAE;display:block;max-width:15em;margin-top:4px}
+  .price .note{margin-top:34px;font-size:15px;color:#C9D6CC;border-left:3px solid var(--brass);padding-left:14px;max-width:34em}
+
+  /* faq */
+  .faq details{border-bottom:1px solid var(--line);padding:16px 0}
+  .faq summary{font-weight:600;font-size:16.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  .faq summary::after{content:"+";color:var(--brass);font-size:20px;line-height:1;font-weight:400}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{margin-top:10px;color:var(--muted);font-size:15px;max-width:60em}
+
+  /* final */
+  .final{background:var(--spruce);color:var(--paper);border-top:0}
+  .final h2{color:#FDFCF9}
+  .final p{color:#C9D6CC;margin:14px 0 26px}
+  footer{background:var(--spruce-deep);color:#7E9184;font-size:13px;padding:22px 0}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:#9FB3A4;text-decoration:none}
+
+  @media (max-width:860px){
+    .hero .wrap,.twoup{grid-template-columns:1fr}
+    .cols,.cols.two,.steps{grid-template-columns:1fr}
+    section{padding:60px 0}
+    .figures{gap:32px}
+    .nav a.nlink{display:none}
+  }
+</style>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="ResThreads home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="4" y="8" width="56" height="42" rx="12" fill="#FBFAF6"/>
+        <path d="M18 50 L18 60 L30 50 Z" fill="#FBFAF6"/>
+        <rect x="10" y="14" width="44" height="30" rx="8" fill="none" stroke="#B98A2F" stroke-width="2.5" stroke-dasharray="5 5"/>
+        <rect x="27" y="24" width="10" height="20" rx="5" fill="#B98A2F"/>
+      </svg>
+      <b>Res<span>Threads</span></b>
+    </a>
+    <a class="nlink" href="#how">How it works</a>
+    <a class="nlink" href="#pricing">Pricing</a>
+    <a class="nlink" href="#faq">FAQ</a>
+    <a class="btn btn-primary" href="#preview">Get a branded preview</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Prospects believe residents. Everything else is a pitch.</h1>
+      <p class="lede"><q>How do I know I&rsquo;d actually like living there?</q> A fifth follow-up email can&rsquo;t answer that. A resident can. ResThreads lets prospects chat with the people who already live in your community, and turns fence-sitters into booked tours.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#preview">Get a preview branded for your community</a>
+        <a class="btn btn-quiet" href="/demo">See a live widget</a>
+      </div>
+      <p class="deal"><strong>Pricing that shares the risk.</strong> Part of our fee is charged per signed lease, so we earn when you lease.</p>
+      <p class="tick">Live in a day &middot; no PMS project &middot; free migration from other resident-chat tools</p>
+    </div>
+
+    <!-- Product mock. Swap for a real widget screenshot when available (see docs/spinoff-landing-assets.md, shot 1).
+         NOTE: the traffic section headline references "Maya" — keep a resident named Maya in this mock/screenshot or update that headline. -->
+    <div class="mock" aria-label="Preview of the ResThreads widget on a community website">
+      <div class="mock-bar"><i></i><i></i><i></i><span class="url">thebowery-apts.com</span></div>
+      <div class="mock-body">
+        <div class="mock-head">
+          <b>Chat with our residents</b>
+          <span class="avset">
+            <span class="av" style="background:#7A9B76">MR</span>
+            <span class="av" style="background:#4F6E86">DK</span>
+            <span class="av" style="background:#A87B4F">ST</span>
+          </span>
+        </div>
+        <div class="res">
+          <span class="av" style="background:#7A9B76">MR</span>
+          <span>
+            <span class="nm">Maya R.</span> <span class="meta">&middot; 2 years here &middot; 1BR</span><br>
+            <span class="chip">Works from home</span><span class="chip">Dog owner</span><span class="chip">4th floor</span>
+          </span>
+        </div>
+        <div class="bub in">Relocating from Chicago next month and can&rsquo;t tour in person. Nervous about signing sight unseen &#128517;</div>
+        <div class="bub out">I did exactly that two years ago! Ask me anything the virtual tour doesn&rsquo;t show. I have opinions about every floor plan &#128516;</div>
+        <div class="bub in">Amazing. Which 1BRs get the morning light?</div>
+        <div class="evt"><span class="tag ok">Tour booked</span> 12 minutes later</div>
+        <div class="guard"><i></i>Chats are private. Contact details stay on-platform.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Residents cover the gap your bot and your leasing team can&rsquo;t.</h2>
+    <p class="sub">Every property chat is becoming a bot. Prospects notice.</p>
+    <div class="cols two">
+      <div class="col">
+        <h3>Experience, not a script</h3>
+        <p>Residents answer from two years of living there, not a talking track. That authority ends a fence-sitter&rsquo;s search, and no employee or bot can borrow it.</p>
+      </div>
+      <div class="col">
+        <h3>Works alongside your AI agent</h3>
+        <p>Your AI covers pricing, availability, and tours. Residents cover &ldquo;do you actually like living here.&rdquo; Together they cover the funnel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap twoup">
+    <div>
+      <h2>Many prospects won&rsquo;t fill out your form. They&rsquo;ll ask Maya.</h2>
+      <p class="sub">Most prospects research you and leave without a trace. Asking a resident a question is a smaller step than booking a tour, and every chat starts with a sign-in. Curious visitors become named prospects in your pipeline, days before a form would catch them.</p>
+    </div>
+    <div class="ledger" aria-label="Example of anonymous visitors compared with a named chat prospect">
+      <h4>YOUR WEBSITE &middot; TUESDAY</h4>
+      <div class="lrow dim"><span>Visitor #4,821 &middot; 6 page views</span><span>left</span></div>
+      <div class="lrow dim"><span>Visitor #4,822 &middot; 2 min on floor plans</span><span>left</span></div>
+      <div class="lrow dim"><span>Visitor #4,823 &middot; pricing page</span><span>left</span></div>
+      <div class="lrow"><span><b>Jordan P.</b> &middot; asked Maya about 1BRs</span><span class="tag ok">Guest card sent</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Residents opt in. Prospects ask. You see the leases.</h2>
+    <div class="steps">
+      <div class="step">
+        <p class="k">STEP 1</p>
+        <h3>Residents become ambassadors</h3>
+        <p>Your happiest residents build a short profile and earn a reward for every move-in their chats produce.</p>
+        <div class="mini">
+          <div class="row"><span><b>Maya R.</b> &middot; 2 yrs &middot; 1BR</span><span class="tag ok">Active</span></div>
+          <div class="row"><span><b>Devon K.</b> &middot; 3 yrs &middot; 2BR</span><span class="tag ok">Active</span></div>
+          <div class="row"><span><b>Sana T.</b> &middot; 1 yr &middot; Studio</span><span class="tag mid">Invited</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <p class="k">STEP 2</p>
+        <h3>Prospects chat before they tour</h3>
+        <p>From your website, Google profile, or a listing link. AI guardrails keep every exchange fair-housing safe and on-platform.</p>
+        <div class="mini">
+          <div class="row"><span>&ldquo;Does the gym get crowded?&rdquo;</span><span class="tag mid">Answered</span></div>
+          <div class="row"><span>&ldquo;Any issues with packages?&rdquo;</span><span class="tag mid">Answered</span></div>
+          <div class="row"><span>Phone number exchange</span><span class="tag ok">Blocked</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <p class="k">STEP 3</p>
+        <h3>Every lease is attributed</h3>
+        <p>Chat, tour, and signature are tracked end to end. Guest cards land in your leasing inbox automatically.</p>
+        <div class="mini">
+          <div class="row"><span>Jordan P. &middot; chatted w/ Maya</span><span class="tag ok">Signed</span></div>
+          <div class="row"><span>Alex M. &middot; chatted w/ Devon</span><span class="tag mid">Toured</span></div>
+          <div class="row"><span>Priya S. &middot; chatting</span><span class="tag mid">Active</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap twoup">
+    <div>
+      <h2>Residents speak freely. You hear the themes.</h2>
+      <p class="sub">Residents won&rsquo;t be candid if management reads their chats, and candor is what converts. So transcripts stay private. You get the intelligence instead.</p>
+      <ul class="checks">
+        <li>Monthly digest of what prospects actually ask about</li>
+        <li>Recurring objections surfaced while they&rsquo;re still fixable</li>
+        <li>Abuse, personal info, and solicitation moderated automatically</li>
+        <li>Every exchange screened for fair-housing compliance in real time</li>
+      </ul>
+    </div>
+    <!-- Swap for a real insights-digest screenshot when available (shot 5). -->
+    <div class="digest" aria-label="Example of the monthly conversation themes digest">
+      <h4>CONVERSATION THEMES &middot; JUNE</h4>
+      <div class="drow"><span>Parking</span><div class="bar"><i style="width:31%"></i></div><span class="pct">31%</span></div>
+      <div class="drow"><span>Noise</span><div class="bar"><i style="width:24%"></i></div><span class="pct">24%</span></div>
+      <div class="drow"><span>Gym hours</span><div class="bar"><i style="width:18%"></i></div><span class="pct">18%</span></div>
+      <div class="drow"><span>Pet policy</span><div class="bar"><i style="width:12%"></i></div><span class="pct">12%</span></div>
+      <div class="drow"><span>Package room</span><div class="bar"><i style="width:9%"></i></div><span class="pct">9%</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="price" id="pricing">
+  <div class="wrap">
+    <h2>One extra lease pays for the year.</h2>
+    <p class="sub">The math your VP will ask for.</p>
+    <div class="figures">
+      <div class="fig"><strong>$20k+</strong><span>typical lifetime rent value of one signed lease</span></div>
+      <div class="fig"><strong>$199/mo</strong><span>per community, plus a small per-lease success fee</span></div>
+      <div class="fig"><strong>1 day</strong><span>to launch: embed the widget, invite residents, done</span></div>
+    </div>
+    <p class="note">Because part of our fee is per attributed lease, our incentive matches yours: signed leases, not seats or logins. Pilot pricing is available for the first communities in each portfolio.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2 style="margin-bottom:22px">The fine print, up front.</h2>
+    <details>
+      <summary>Does it integrate with Yardi / Entrata / RealPage / Knock?</summary>
+      <p>Leads arrive as standard guest cards emailed to each community&rsquo;s leasing inbox, which every major CRM already ingests. Launch takes a day, not an IT project. Direct API integrations are on the roadmap as we join each vendor&rsquo;s partner program.</p>
+    </details>
+    <details>
+      <summary>What if a resident says something negative?</summary>
+      <p>Occasionally they will. That honesty is why prospects trust the channel enough to lease. We moderate abuse, personal info, and solicitation, never opinions. If a community has a real problem, you hear about it first through the themes digest, where it&rsquo;s fixable intel rather than a public review.</p>
+    </details>
+    <details>
+      <summary>Is this fair-housing compliant?</summary>
+      <p>Every conversation is screened for steering and protected-class language in real time, and residents get a short fair-housing briefing before their first chat. That&rsquo;s more oversight than informal &ldquo;ask a current resident&rdquo; interactions have ever had.</p>
+    </details>
+    <details>
+      <summary>How is this different from our resident referral program?</summary>
+      <p>A referral program pays residents to mine their own network. Worthwhile, but supply-limited: it only reaches people your residents happen to know. ResThreads points the same resident credibility at the traffic you already pay for, so it scales with your marketing instead of your residents&rsquo; contact lists. Most communities run both.</p>
+    </details>
+    <details>
+      <summary>What&rsquo;s in it for residents?</summary>
+      <p>A reward for every move-in their conversations produce. You set the amount, and most communities mirror their existing referral bonus. Recognition matters too: residents who represent their community tend to re-commit to it.</p>
+    </details>
+    <details>
+      <summary>Can management read the chats?</summary>
+      <p>No. Residents are candid because the conversations are private. You receive anonymized themes and full lease attribution instead, which is the part you can act on.</p>
+    </details>
+    <details>
+      <summary>We already use a resident-chat tool. Why switch?</summary>
+      <p>Migration is free and takes a day. You get per-lease pricing, attribution your VP can audit, and AI insights included, from a team focused only on this product.</p>
+    </details>
+  </div>
+</section>
+
+<section class="final" id="preview">
+  <div class="wrap">
+    <h2>See it wearing your community&rsquo;s branding.</h2>
+    <p>Send us one community&rsquo;s name and website. You&rsquo;ll get a private preview link within a day: your branding, your photos, a live widget. No call required.</p>
+    <a class="btn btn-primary" href="mailto:hello@resthreads.com?subject=Branded%20preview%20request">Request a branded preview</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 ResThreads</span>
+    <span><a href="mailto:hello@resthreads.com">hello@resthreads.com</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy</a> &nbsp;&middot;&nbsp; <a href="/terms">Terms</a></span>
+  </div>
+</footer>
+</body>
+</html>

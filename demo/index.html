@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Bowery Apartments — Live Demo | ResThreads</title>
+<meta name="description" content="A demo apartment community website showing the ResThreads resident-chat widget live. Browse resident profiles and start a conversation.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='42' rx='12' fill='%231E3A2B'/%3E%3Cpath d='M18 50 L18 60 L30 50 Z' fill='%231E3A2B'/%3E%3Crect x='10' y='14' width='44' height='30' rx='8' fill='none' stroke='%23B98A2F' stroke-width='2.5' stroke-dasharray='5 5'/%3E%3Crect x='27' y='24' width='10' height='20' rx='5' fill='%23B98A2F'/%3E%3C/svg%3E">
+<!-- CampusThreads Widget -->
+<script defer type="text/javascript" src="https://connect.campusthreads.co/embed.js" data-school="resthreads-demo" data-anchorid="ct-container" data-popcard="true"></script>
+</head>
+<body>
+<style>
+  :root{
+    --char:#2B2B28; --clay:#C4552D; --clay-dark:#A34423; --cream:#FAF6F0;
+    --stone:#8A8578; --linen:#F1EAE0; --bd:#E6DFD3;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);color:var(--char);background:var(--cream);line-height:1.6;font-size:16px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{text-decoration:none;color:inherit}
+
+  .demo-banner{background:#1E3A2B;color:#EAF0E7;text-align:center;padding:10px 16px;font-size:13.5px;position:sticky;top:0;z-index:9000}
+  .demo-banner a{color:#D4A94E;font-weight:600;text-decoration:underline}
+
+  .nav{background:var(--cream);border-bottom:1px solid var(--bd);padding:18px 0}
+  .nav .wrap{display:flex;align-items:center;gap:26px}
+  .brand{font-family:var(--serif);font-size:21px;letter-spacing:.02em;margin-right:auto}
+  .brand em{color:var(--clay);font-style:normal}
+  .nav a.nl{font-size:14px;color:var(--stone)}
+  .nav a.nl:hover{color:var(--char)}
+  .nav .cta{background:var(--clay);color:#fff;border-radius:4px;padding:9px 16px;font-size:14px;font-weight:600}
+  .nav .cta:hover{background:var(--clay-dark)}
+
+  .hero{padding:84px 0 72px;background:
+    linear-gradient(180deg,rgba(250,246,240,0) 40%,var(--cream) 96%),
+    repeating-linear-gradient(90deg,var(--linen) 0 64px,#EDE4D6 64px 128px)}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5vw,54px);line-height:1.1;max-width:12em}
+  .hero p{margin-top:16px;color:var(--stone);max-width:34em;font-size:17.5px}
+  .hero .ctas{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 24px;border-radius:4px;font-weight:600;font-size:15px}
+  .btn.solid{background:var(--clay);color:#fff}
+  .btn.solid:hover{background:var(--clay-dark)}
+  .btn.line{border:1.5px solid var(--char)}
+  .stats{display:flex;gap:44px;margin-top:44px;flex-wrap:wrap}
+  .stat b{font-size:22px;font-family:var(--serif);font-weight:500}
+  .stat span{display:block;font-size:13px;color:var(--stone)}
+
+  section{padding:72px 0;border-top:1px solid var(--bd)}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,34px)}
+  .sub{color:var(--stone);margin-top:8px;max-width:40em}
+
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
+  .plan{background:#fff;border:1px solid var(--bd);border-radius:6px;overflow:hidden}
+  .plan .ph{height:150px}
+  .plan:nth-child(1) .ph{background:repeating-linear-gradient(45deg,#E9DFCE 0 14px,#F1EAE0 14px 28px)}
+  .plan:nth-child(2) .ph{background:repeating-linear-gradient(-45deg,#DDD3C0 0 14px,#EAE2D3 14px 28px)}
+  .plan:nth-child(3) .ph{background:repeating-linear-gradient(90deg,#E4D8C4 0 14px,#EFE8DA 14px 28px)}
+  .plan .bd{padding:18px}
+  .plan h3{font-size:16.5px}
+  .plan p{font-size:14px;color:var(--stone);margin-top:4px}
+  .plan .pr{margin-top:12px;font-weight:600;color:var(--clay)}
+
+  .amen{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
+  .am{background:#fff;border:1px solid var(--bd);border-radius:6px;padding:18px;font-size:14px}
+  .am b{display:block;font-size:14.5px;margin-bottom:4px}
+  .am span{color:var(--stone);font-size:13px}
+
+  .ask{background:var(--linen);border-top:1px solid var(--bd)}
+  .ask .in{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .ask p{color:var(--stone);margin-top:10px}
+  #ct-container{min-height:64px}
+
+  footer{border-top:1px solid var(--bd);padding:26px 0;font-size:13px;color:var(--stone)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  @media (max-width:860px){
+    .plans{grid-template-columns:1fr}
+    .amen{grid-template-columns:repeat(2,1fr)}
+    .ask .in{grid-template-columns:1fr}
+    .nav a.nl{display:none}
+  }
+</style>
+
+<div class="demo-banner">You&rsquo;re viewing a demo property website. The resident-chat widget on this page is real &mdash; try it. <a href="../">&larr; Back to ResThreads</a></div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="#">The <em>Bowery</em></a>
+    <a class="nl" href="#plans">Floor Plans</a>
+    <a class="nl" href="#amenities">Amenities</a>
+    <a class="nl" href="#ask">Ask a Resident</a>
+    <a class="cta" href="#ask">Schedule a Tour</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>City living with room to breathe.</h1>
+    <p>Studio, one- and two-bedroom apartments in the heart of the arts district. Rooftop pool, co-working lounge, and neighbors worth knowing.</p>
+    <div class="ctas">
+      <a class="btn solid" href="#plans">View floor plans</a>
+      <a class="btn line" href="#ask">Chat with a resident</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>238</b><span>residences</span></div>
+      <div class="stat"><b>2019</b><span>built</span></div>
+      <div class="stat"><b>4.7</b><span>resident rating</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="plans">
+  <div class="wrap">
+    <h2>Floor plans</h2>
+    <p class="sub">Twelve layouts across two towers. All units include in-home laundry and smart locks.</p>
+    <div class="plans">
+      <div class="plan"><div class="ph"></div><div class="bd"><h3>The Grand &mdash; Studio</h3><p>512 sq ft &middot; 1 bath</p><p class="pr">From $1,450/mo</p></div></div>
+      <div class="plan"><div class="ph"></div><div class="bd"><h3>The Mercer &mdash; 1 Bedroom</h3><p>704 sq ft &middot; 1 bath &middot; balcony</p><p class="pr">From $1,890/mo</p></div></div>
+      <div class="plan"><div class="ph"></div><div class="bd"><h3>The Astor &mdash; 2 Bedroom</h3><p>1,048 sq ft &middot; 2 bath &middot; corner views</p><p class="pr">From $2,650/mo</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="amenities">
+  <div class="wrap">
+    <h2>Amenities</h2>
+    <div class="amen">
+      <div class="am"><b>Rooftop pool</b><span>Open May through October</span></div>
+      <div class="am"><b>Co-working lounge</b><span>Bookable calls rooms, fast wifi</span></div>
+      <div class="am"><b>Fitness studio</b><span>24/7 with Peloton row</span></div>
+      <div class="am"><b>Dog run &amp; wash</b><span>Because Biscuit deserves it</span></div>
+      <div class="am"><b>Package room</b><span>Chilled lockers for groceries</span></div>
+      <div class="am"><b>Garage parking</b><span>EV chargers on P1</span></div>
+      <div class="am"><b>Resident events</b><span>Monthly rooftop socials</span></div>
+      <div class="am"><b>Bike storage</b><span>Secure, with repair stand</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ask" id="ask">
+  <div class="wrap in">
+    <div>
+      <h2>Don&rsquo;t take our word for it. Ask someone who lives here.</h2>
+      <p>Our resident ambassadors answer real questions about life at The Bowery: noise, neighbors, maintenance, the good and the honest. Conversations are private.</p>
+    </div>
+    <div id="ct-container"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>The Bowery Apartments &middot; 400 Canvas St &middot; A fictional community, demonstrated by <a href="../" style="text-decoration:underline">ResThreads</a></span>
+    <span>Equal Housing Opportunity</span>
+  </div>
+</footer>
+</body>
+</html>
