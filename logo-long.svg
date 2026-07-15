@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348 64" width="348" height="64" role="img" aria-label="ResThreads">
+  <rect x="4" y="8" width="56" height="42" rx="12" fill="#1E3A2B"/>
+  <path d="M18 50 L18 60 L30 50 Z" fill="#1E3A2B"/>
+  <rect x="10" y="14" width="44" height="30" rx="8" fill="none" stroke="#B98A2F" stroke-width="2.5" stroke-dasharray="5 5"/>
+  <rect x="27" y="24" width="10" height="20" rx="5" fill="#B98A2F"/>
+  <text x="74" y="45" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="38" font-weight="600" fill="#1E3A2B">Res<tspan fill="#B98A2F">Threads</tspan></text>
+</svg>
