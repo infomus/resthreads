@@ -1,17 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.resthreads.com"
-        }
-      ],
-      "destination": "https://resthreads.com/:path*",
-      "permanent": true
-    },
-    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
