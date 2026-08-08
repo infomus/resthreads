@@ -3,9 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ResThreads — Prospects chat with real residents. You sign more leases.</title>
-<meta name="description" content="ResThreads lets prospective renters chat with residents who actually live in your community. Every conversation is attributed to the lease it signs.">
+<title>Resident Chat for Multifamily Leasing | ResThreads</title>
+<meta name="description" content="Turn apartment website visitors into signed leases by connecting prospects with verified residents. Branded resident-chat widget, attribution, and transparent pricing.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1E3A2B">
+<link rel="canonical" href="https://resthreads.com/">
 <link rel="icon" href="/assets/resthreads-icon-dark.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ResThreads">
+<meta property="og:url" content="https://resthreads.com/">
+<meta property="og:title" content="Resident Chat for Multifamily Leasing | ResThreads">
+<meta property="og:description" content="Connect apartment prospects with verified residents and attribute their conversations to signed leases.">
+<meta property="og:image" content="https://resthreads.com/assets/resthreads-social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ResThreads — resident-to-prospect chat for multifamily leasing">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Resident Chat for Multifamily Leasing | ResThreads">
+<meta name="twitter:description" content="Connect apartment prospects with verified residents and attribute their conversations to signed leases.">
+<meta name="twitter:image" content="https://resthreads.com/assets/resthreads-social-card.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://resthreads.com/#organization",
+      "name": "ResThreads",
+      "url": "https://resthreads.com/",
+      "logo": "https://resthreads.com/assets/resthreads-icon-dark.svg",
+      "email": "hello@resthreads.com",
+      "description": "Resident-to-prospect chat software for multifamily communities.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "11 Ordnance St.",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "postalCode": "M6K 0G6",
+        "addressCountry": "CA"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://resthreads.com/#website",
+      "url": "https://resthreads.com/",
+      "name": "ResThreads",
+      "publisher": { "@id": "https://resthreads.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://resthreads.com/#software",
+      "name": "ResThreads",
+      "url": "https://resthreads.com/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "A branded resident-chat widget that lets apartment prospects talk privately with verified residents and attributes conversations to signed leases.",
+      "offers": {
+        "@type": "Offer",
+        "price": "199",
+        "priceCurrency": "USD",
+        "description": "$199 per community per month, plus $149 per attributed signed lease."
+      },
+      "publisher": { "@id": "https://resthreads.com/#organization" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <style>
@@ -48,6 +111,7 @@
   /* hero */
   .hero{background:var(--spruce);color:var(--paper);padding:76px 0 84px}
   .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  .hero .eyebrow{color:var(--brass-bright);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
   .hero h1{font-size:clamp(32px,4.2vw,46px);color:#FDFCF9}
   .hero .lede{color:#C9D6CC;font-size:17.5px;margin-top:18px;max-width:30em}
   .hero .lede q{font-family:var(--serif);font-style:italic;color:#E9E2CE;quotes:"\201C" "\201D"}
@@ -107,6 +171,43 @@
   .tag.ok{background:#E3EFE4;color:#2F6D3C}
   .tag.mid{background:#F3EEDD;color:#8A6A1E}
 
+  /* confidence signal */
+  .confidence{background:var(--sage)}
+  .signal-card{background:#fff;border:1px solid #D8E0D3;border-radius:12px;padding:20px;box-shadow:0 14px 34px rgba(25,48,34,.09)}
+  .signal-head{display:flex;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .signal-head strong{color:var(--ink);font-size:13.5px}
+  .signal-list{display:grid;gap:10px;margin-top:14px}
+  .signal-person{display:flex;align-items:center;gap:11px;border:1px solid #E5E9E2;border-radius:8px;padding:10px;background:#FCFCFA}
+  .signal-person .av{width:34px;height:34px;flex:0 0 auto;border:0}
+  .signal-person b{display:block;font-size:13px}
+  .signal-person small{display:block;color:var(--muted);font-size:11px}
+  .signal-ready{margin-left:auto;border-radius:99px;background:#E3EFE4;color:#2F6D3C;font-size:10px;font-weight:700;padding:3px 7px;white-space:nowrap}
+  .signal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;color:var(--muted);font-size:11px}
+  .signal-foot strong{color:var(--spruce);font-size:12px}
+
+  /* onsite and direct-link channels */
+  .channels{background:#F6F4EE}
+  .channel-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:36px}
+  .channel-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+  .channel-card h3{margin-top:18px}
+  .channel-card>p{color:var(--muted);font-size:14.5px;margin-top:7px}
+  .channel-art{height:218px;position:relative;overflow:hidden;border:1px solid #DCE2DA;border-radius:8px;background:#EEF2EB}
+  .browser-frame{position:absolute;inset:18px;border:1px solid #D8DED7;border-radius:7px;background:#fff;overflow:hidden}
+  .browser-top{height:22px;border-bottom:1px solid #DDE2DC;background:#F0F2EF}
+  .browser-top::before{content:"";display:block;width:7px;height:7px;margin:7px 0 0 10px;border-radius:50%;background:#C8CFC8;box-shadow:12px 0 #C8CFC8,24px 0 #C8CFC8}
+  .page-lines{position:absolute;top:46px;left:18px;right:18px;height:70px;background:linear-gradient(#DCE5DC 0 11px,transparent 11px 22px,#EDF0EC 22px 31px,transparent 31px 42px,#EDF0EC 42px 51px,transparent 51px)}
+  .embed-strip{position:absolute;left:18px;right:18px;bottom:16px;height:66px;border:2px solid var(--brass);border-radius:7px;background:#FBFAF6;padding:10px}
+  .embed-strip b{display:block;color:var(--spruce);font-size:10px}
+  .tiny-people{display:flex;gap:5px;margin-top:7px}
+  .tiny-people i{display:block;width:18px;height:18px;border-radius:50%;background:#7A9B76}
+  .tiny-people i:nth-child(2){background:#4F6E86}
+  .tiny-people i:nth-child(3){background:#A87B4F}
+  .message-frame{position:absolute;inset:18px;border:1px solid #D8DED7;border-radius:7px;background:#fff;padding:17px}
+  .message-frame .subject{font-size:10px;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .message-copy{margin-top:18px;padding:12px;border-radius:8px;background:#F1F4EF;color:var(--ink);font-size:11px;line-height:1.5}
+  .message-link{display:inline-block;margin-top:12px;border-radius:5px;background:var(--spruce);color:#fff;font-size:10px;font-weight:700;padding:7px 10px}
+  .send-mark{position:absolute;right:30px;bottom:24px;color:var(--brass);font-size:10px;font-weight:700}
+
   /* privacy */
   .twoup{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:8px}
   ul.checks{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:11px}
@@ -157,7 +258,7 @@
 
   @media (max-width:860px){
     .hero .wrap,.twoup{grid-template-columns:1fr}
-    .cols,.cols.two,.steps{grid-template-columns:1fr}
+    .cols,.cols.two,.steps,.channel-cards{grid-template-columns:1fr}
     section{padding:60px 0}
     .figures{gap:32px}
     .nav a.nlink{display:none}
@@ -167,6 +268,7 @@
   @media (max-width:560px){
     .preview-form{grid-template-columns:1fr}
     .preview-form .btn{margin-top:2px;justify-self:start}
+    .send-mark{display:none}
   }
 </style>
 
@@ -177,6 +279,7 @@
       <b>Res<span>Threads</span></b>
     </a>
     <a class="nlink" href="#how">How it works</a>
+    <a class="nlink" href="/apartment-resident-chat-widget/">Solutions</a>
     <a class="nlink" href="#pricing">Pricing</a>
     <a class="nlink" href="#faq">FAQ</a>
     <a class="btn btn-primary" href="#preview">Get a branded preview</a>
@@ -186,6 +289,7 @@
 <div class="hero">
   <div class="wrap">
     <div>
+      <p class="eyebrow">Resident-to-prospect chat for multifamily communities</p>
       <h1>Prospects trust residents more than another sales pitch.</h1>
       <p class="lede"><q>How do I know I&rsquo;d actually like living there?</q> A fifth follow-up email can&rsquo;t answer that. A resident can. ResThreads lets prospects chat with the people who already live in your community, and turns fence-sitters into signed leases.</p>
       <div class="ctas">
@@ -246,6 +350,25 @@
   </div>
 </section>
 
+<section class="confidence">
+  <div class="wrap twoup">
+    <div>
+      <h2>Confidence is visible before the first message.</h2>
+      <p class="sub">Showing verified residents who are willing to answer questions makes a claim that polished copy cannot: you trust the lived experience to hold up when prospects ask directly. Even visitors who only browse the lineup notice that openness.</p>
+      <p class="sub"><a href="/resident-ambassador-program/" style="color:var(--spruce);font-weight:700;text-decoration:none">See how resident ambassador programs work &rarr;</a></p>
+    </div>
+    <div class="signal-card" aria-label="Example public lineup of verified residents">
+      <div class="signal-head"><strong>People who live here</strong><span>Verified residents</span></div>
+      <div class="signal-list">
+        <div class="signal-person"><span class="av" style="background:#7A9B76">MR</span><span><b>Maya R.</b><small>1BR &middot; 2 years here</small></span><span class="signal-ready">Ready to chat</span></div>
+        <div class="signal-person"><span class="av" style="background:#4F6E86">DK</span><span><b>Devon K.</b><small>2BR &middot; 3 years here</small></span><span class="signal-ready">Ready to chat</span></div>
+        <div class="signal-person"><span class="av" style="background:#A87B4F">ST</span><span><b>Sana T.</b><small>Studio &middot; 1 year here</small></span><span class="signal-ready">Ready to chat</span></div>
+      </div>
+      <div class="signal-foot"><span>Firsthand answers, not a sales script</span><strong>Ask a resident &rarr;</strong></div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap twoup">
     <div>
@@ -296,6 +419,29 @@
           <div class="row"><span>Priya S. &middot; chatting</span><span class="tag mid">Active</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="channels">
+  <div class="wrap">
+    <h2>Put it on your site—or send it when a prospect goes quiet.</h2>
+    <p class="sub">ResThreads can capture new interest while prospects browse and give your leasing team a useful, low-pressure reason to restart a stalled conversation.</p>
+    <div class="channel-cards">
+      <article class="channel-card">
+        <div class="channel-art" aria-hidden="true">
+          <div class="browser-frame"><div class="browser-top"></div><div class="page-lines"></div><div class="embed-strip"><b>Ask someone who already lives here</b><span class="tiny-people"><i></i><i></i><i></i></span></div></div>
+        </div>
+        <h3>Place it on the property website</h3>
+        <p>Add a full resident directory inline or keep a compact resident-chat panel available as prospects browse floor plans, amenities, and pricing.</p>
+      </article>
+      <article class="channel-card">
+        <div class="channel-art" aria-hidden="true">
+          <div class="message-frame"><div class="subject">Following up on your apartment search</div><div class="message-copy">Still deciding? You can ask current residents what living at The Bowery is actually like.<br><span class="message-link">Chat with residents &rarr;</span></div><span class="send-mark">Branded direct link</span></div>
+        </div>
+        <h3>Share it directly with a stalled prospect</h3>
+        <p>Send the standalone branded link in an email or text follow-up. It offers something more useful than another “just checking in” message.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -399,7 +545,7 @@
 <footer>
   <div class="wrap">
     <span>&copy; 2026 ResThreads</span>
-    <span><a href="mailto:hello@resthreads.com">hello@resthreads.com</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy</a> &nbsp;&middot;&nbsp; <a href="/terms">Terms</a></span>
+    <span><a href="/about/">About</a> &nbsp;&middot;&nbsp; <a href="/apartment-resident-chat-widget/">Resident chat</a> &nbsp;&middot;&nbsp; <a href="/resident-ambassador-program/">Ambassador programs</a> &nbsp;&middot;&nbsp; <a href="mailto:hello@resthreads.com">Contact</a> &nbsp;&middot;&nbsp; <a href="/privacy/">Privacy</a> &nbsp;&middot;&nbsp; <a href="/terms/">Terms</a></span>
   </div>
 </footer>
 <script>

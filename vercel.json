@@ -1,0 +1,80 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.resthreads.com"
+        }
+      ],
+      "destination": "https://resthreads.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*/index.html",
+      "destination": "/:path*/",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/apartment-resident-chat-widget",
+      "destination": "/apartment-resident-chat-widget/",
+      "permanent": true
+    },
+    {
+      "source": "/resident-ambassador-program",
+      "destination": "/resident-ambassador-program/",
+      "permanent": true
+    },
+    {
+      "source": "/resident-chat-vs-ai-leasing-chatbot",
+      "destination": "/resident-chat-vs-ai-leasing-chatbot/",
+      "permanent": true
+    },
+    {
+      "source": "/student-housing-resident-ambassadors",
+      "destination": "/student-housing-resident-ambassadors/",
+      "permanent": true
+    },
+    {
+      "source": "/multifamily-leasing-conversion",
+      "destination": "/multifamily-leasing-conversion/",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/",
+      "permanent": true
+    },
+    {
+      "source": "/demo",
+      "destination": "/demo/",
+      "permanent": true
+    },
+    {
+      "source": "/choose",
+      "destination": "/choose/",
+      "permanent": true
+    },
+    {
+      "source": "/preview",
+      "destination": "/preview/",
+      "permanent": true
+    }
+  ]
+}

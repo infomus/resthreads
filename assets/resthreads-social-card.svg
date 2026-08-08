@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">ResThreads resident-to-prospect chat for multifamily leasing</title>
+  <desc id="desc">ResThreads connects prospective renters with verified residents and attributes conversations to signed leases.</desc>
+  <rect width="1200" height="630" fill="#1E3A2B"/>
+  <circle cx="1080" cy="-10" r="300" fill="#2E5240"/>
+  <circle cx="1120" cy="40" r="205" fill="none" stroke="#B98A2F" stroke-width="3" stroke-dasharray="14 16" opacity=".68"/>
+  <g transform="translate(88 82)">
+    <path d="M0 20C0 8.95 8.95 0 20 0h82c11.05 0 20 8.95 20 20v62c0 11.05-8.95 20-20 20H54l-25 25v-25h-9C8.95 102 0 93.05 0 82V20Z" fill="#FBFAF6"/>
+    <rect x="15" y="15" width="92" height="72" rx="13" fill="none" stroke="#B98A2F" stroke-width="4" stroke-dasharray="9 9"/>
+    <rect x="51" y="39" width="20" height="48" rx="10" fill="#B98A2F"/>
+  </g>
+  <text x="232" y="147" fill="#FBFAF6" font-family="Georgia,serif" font-size="56" font-weight="600">Res<tspan fill="#D4A94E">Threads</tspan></text>
+  <text x="88" y="292" fill="#FBFAF6" font-family="Georgia,serif" font-size="67" font-weight="500">Prospects trust residents</text>
+  <text x="88" y="373" fill="#FBFAF6" font-family="Georgia,serif" font-size="67" font-weight="500">more than another sales pitch.</text>
+  <text x="90" y="459" fill="#C9D6CC" font-family="Arial,sans-serif" font-size="29">Resident-to-prospect chat for multifamily leasing.</text>
+  <g transform="translate(90 514)">
+    <rect width="485" height="60" rx="12" fill="#B98A2F"/>
+    <text x="26" y="39" fill="#1E1608" font-family="Arial,sans-serif" font-size="24" font-weight="700">Turn conversations into signed leases</text>
+  </g>
+</svg>
