@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ResThreads — Prospects chat with real residents. You sign more leases.</title>
 <meta name="description" content="ResThreads lets prospective renters chat with residents who actually live in your community. Every conversation is attributed to the lease it signs.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='42' rx='12' fill='%231E3A2B'/%3E%3Cpath d='M18 50 L18 60 L30 50 Z' fill='%231E3A2B'/%3E%3Crect x='10' y='14' width='44' height='30' rx='8' fill='none' stroke='%23B98A2F' stroke-width='2.5' stroke-dasharray='5 5'/%3E%3Crect x='27' y='24' width='10' height='20' rx='5' fill='%23B98A2F'/%3E%3C/svg%3E">
+<link rel="icon" href="/assets/resthreads-icon-dark.svg" type="image/svg+xml">
 </head>
 <body>
 <style>
@@ -25,12 +25,12 @@
   h2{font-size:clamp(24px,3vw,31px)}
   h3{font-size:17.5px;letter-spacing:-0.01em}
   p{max-width:62ch}
-  a.btn{display:inline-block;font-weight:600;font-size:15.5px;padding:12px 22px;border-radius:6px;text-decoration:none}
+  .btn{display:inline-block;font-weight:600;font-size:15.5px;padding:12px 22px;border-radius:6px;text-decoration:none}
   .btn-primary{background:var(--brass);color:#1E1608}
   .btn-primary:hover{background:var(--brass-bright)}
   .btn-quiet{color:var(--paper);border:1px solid rgba(251,250,246,.35)}
   .btn-quiet:hover{border-color:rgba(251,250,246,.7)}
-  a.btn:focus-visible{outline:3px solid var(--brass-bright);outline-offset:2px}
+  .btn:focus-visible{outline:3px solid var(--brass-bright);outline-offset:2px}
   section{padding:84px 0;border-top:1px solid var(--line)}
   .sub{color:var(--muted);margin-top:10px}
 
@@ -38,6 +38,7 @@
   .nav{background:var(--spruce);padding:16px 0}
   .nav .wrap{display:flex;align-items:center;gap:28px}
   .logo{display:flex;align-items:center;gap:9px;color:var(--paper);text-decoration:none;margin-right:auto}
+  .logo-mark{display:block;width:36px;height:36px}
   .logo b{font-family:var(--serif);font-size:20px;font-weight:600}
   .logo b span{color:var(--brass-bright)}
   .nav a.nlink{color:#B7C7BB;text-decoration:none;font-size:14.5px}
@@ -51,8 +52,10 @@
   .hero .lede{color:#C9D6CC;font-size:17.5px;margin-top:18px;max-width:30em}
   .hero .lede q{font-family:var(--serif);font-style:italic;color:#E9E2CE;quotes:"\201C" "\201D"}
   .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-  .deal{margin-top:26px;border-left:3px solid var(--brass);padding:2px 0 2px 14px;font-size:15px;color:#E4DCC4;max-width:30em}
+  .deal{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:26px;padding:12px 14px;border-radius:8px;background:rgba(255,255,255,.07);font-size:14px;color:#D6E0D7;max-width:36em}
   .deal strong{color:#F0E6C8;font-weight:600}
+  .deal a{flex:0 0 auto;color:var(--brass-bright);font-weight:600;text-decoration:none;white-space:nowrap}
+  .deal a:hover{text-decoration:underline;text-underline-offset:3px}
   .tick{margin-top:14px;font-size:13px;color:#8FA396}
 
   /* product mock — replaced by real screenshots as they land */
@@ -121,10 +124,12 @@
   .price{background:var(--spruce);color:var(--paper);border-top:0}
   .price h2{color:#FDFCF9}
   .price .sub{color:#A9BCAE}
-  .figures{display:flex;gap:56px;flex-wrap:wrap;margin-top:38px}
+  .figures{display:flex;gap:48px;flex-wrap:wrap;margin-top:38px}
   .fig strong{display:block;font-size:34px;font-weight:700;letter-spacing:-0.02em;color:var(--brass-bright);font-variant-numeric:tabular-nums}
   .fig span{font-size:14px;color:#A9BCAE;display:block;max-width:15em;margin-top:4px}
-  .price .note{margin-top:34px;font-size:15px;color:#C9D6CC;border-left:3px solid var(--brass);padding-left:14px;max-width:34em}
+  .price-points{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 0;padding:0;list-style:none}
+  .price-points li{display:flex;align-items:center;gap:8px;border:1px solid rgba(212,169,78,.34);border-radius:99px;background:rgba(255,255,255,.06);color:#E4EADF;font-size:13.5px;padding:8px 13px}
+  .price-points li::before{content:"\2713";color:var(--brass-bright);font-weight:700}
 
   /* faq */
   .faq details{border-bottom:1px solid var(--line);padding:16px 0}
@@ -136,7 +141,16 @@
   /* final */
   .final{background:var(--spruce);color:var(--paper);border-top:0}
   .final h2{color:#FDFCF9}
-  .final p{color:#C9D6CC;margin:14px 0 26px}
+  .final p{color:#C9D6CC;margin:14px 0 22px}
+  .preview-form{display:grid;grid-template-columns:minmax(0,560px) auto;gap:10px;align-items:start;max-width:760px}
+  .preview-form label{display:block;color:#D8E2D9;font-size:12px;font-weight:600;margin:0 0 5px 1px}
+  .preview-form input{display:block;width:100%;border:1px solid #789080;border-radius:6px;background:#FDFCF9;color:var(--ink);font:inherit;font-size:14.5px;padding:11px 12px;line-height:1.35}
+  .preview-form input:focus{outline:3px solid rgba(212,169,78,.5);outline-offset:1px;border-color:var(--brass-bright)}
+  .preview-form .btn{border:0;cursor:pointer;white-space:nowrap;margin-top:24px;font:inherit;font-weight:600;font-size:15px}
+  .preview-form .btn[disabled]{cursor:wait;opacity:.75}
+  .preview-note{font-size:13px;color:#A9BCAE;margin-top:11px!important}
+  .preview-status{font-size:14px;min-height:1.6em;margin-top:11px!important;color:#F0E6C8!important}
+  .preview-status[hidden]{display:none}
   footer{background:var(--spruce-deep);color:#7E9184;font-size:13px;padding:22px 0}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   footer a{color:#9FB3A4;text-decoration:none}
@@ -147,18 +161,19 @@
     section{padding:60px 0}
     .figures{gap:32px}
     .nav a.nlink{display:none}
+    .preview-form{grid-template-columns:minmax(0,1fr) auto}
+    .preview-form .btn{margin-top:24px}
+  }
+  @media (max-width:560px){
+    .preview-form{grid-template-columns:1fr}
+    .preview-form .btn{margin-top:2px;justify-self:start}
   }
 </style>
 
 <nav class="nav">
   <div class="wrap">
     <a class="logo" href="/" aria-label="ResThreads home">
-      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="4" y="8" width="56" height="42" rx="12" fill="#FBFAF6"/>
-        <path d="M18 50 L18 60 L30 50 Z" fill="#FBFAF6"/>
-        <rect x="10" y="14" width="44" height="30" rx="8" fill="none" stroke="#B98A2F" stroke-width="2.5" stroke-dasharray="5 5"/>
-        <rect x="27" y="24" width="10" height="20" rx="5" fill="#B98A2F"/>
-      </svg>
+      <img class="logo-mark" src="/assets/resthreads-mark-on-dark.svg" width="36" height="36" alt="" aria-hidden="true">
       <b>Res<span>Threads</span></b>
     </a>
     <a class="nlink" href="#how">How it works</a>
@@ -171,13 +186,16 @@
 <div class="hero">
   <div class="wrap">
     <div>
-      <h1>Prospects believe residents. Everything else is a pitch.</h1>
-      <p class="lede"><q>How do I know I&rsquo;d actually like living there?</q> A fifth follow-up email can&rsquo;t answer that. A resident can. ResThreads lets prospects chat with the people who already live in your community, and turns fence-sitters into booked tours.</p>
+      <h1>Prospects trust residents more than another sales pitch.</h1>
+      <p class="lede"><q>How do I know I&rsquo;d actually like living there?</q> A fifth follow-up email can&rsquo;t answer that. A resident can. ResThreads lets prospects chat with the people who already live in your community, and turns fence-sitters into signed leases.</p>
       <div class="ctas">
         <a class="btn btn-primary" href="#preview">Get a preview branded for your community</a>
-        <a class="btn btn-quiet" href="/demo">See a live widget</a>
+        <a class="btn btn-quiet" href="/choose/">See a live widget</a>
       </div>
-      <p class="deal"><strong>Pricing that shares the risk.</strong> Part of our fee is charged per signed lease, so we earn when you lease.</p>
+      <div class="deal">
+        <span><strong>Pricing that shares the risk.</strong> Part of our fee is charged per signed lease, so we earn when you lease.</span>
+        <a href="#pricing">See pricing <span aria-hidden="true">&darr;</span></a>
+      </div>
       <p class="tick">Live in a day &middot; no PMS project &middot; free migration from other resident-chat tools</p>
     </div>
 
@@ -201,9 +219,9 @@
             <span class="chip">Works from home</span><span class="chip">Dog owner</span><span class="chip">4th floor</span>
           </span>
         </div>
-        <div class="bub in">Relocating from Chicago next month and can&rsquo;t tour in person. Nervous about signing sight unseen &#128517;</div>
-        <div class="bub out">I did exactly that two years ago! Ask me anything the virtual tour doesn&rsquo;t show. I have opinions about every floor plan &#128516;</div>
-        <div class="bub in">Amazing. Which 1BRs get the morning light?</div>
+        <div class="bub in">Relocating from Chicago and can&rsquo;t tour in person. What do you wish you&rsquo;d known before signing?</div>
+        <div class="bub out">Honestly? The street gets lively on Friday nights, but my 1BR is quiet once the windows are closed. I work from home and take calls here every day.</div>
+        <div class="bub in">Okay, that&rsquo;s not bad&mdash;I&rsquo;m usually out on Friday nights anyway &#128517;</div>
         <div class="evt"><span class="tag ok">Tour booked</span> 12 minutes later</div>
         <div class="guard"><i></i>Chats are private. Contact details stay on-platform.</div>
       </div>
@@ -239,7 +257,7 @@
       <div class="lrow dim"><span>Visitor #4,821 &middot; 6 page views</span><span>left</span></div>
       <div class="lrow dim"><span>Visitor #4,822 &middot; 2 min on floor plans</span><span>left</span></div>
       <div class="lrow dim"><span>Visitor #4,823 &middot; pricing page</span><span>left</span></div>
-      <div class="lrow"><span><b>Jordan P.</b> &middot; asked Maya about 1BRs</span><span class="tag ok">Guest card sent</span></div>
+      <div class="lrow"><span><b>Jordan P.</b> &middot; asked Maya about noise</span><span class="tag ok">Guest card sent</span></div>
     </div>
   </div>
 </section>
@@ -312,10 +330,15 @@
     <p class="sub">The math your VP will ask for.</p>
     <div class="figures">
       <div class="fig"><strong>$20k+</strong><span>typical lifetime rent value of one signed lease</span></div>
-      <div class="fig"><strong>$199/mo</strong><span>per community, plus a small per-lease success fee</span></div>
-      <div class="fig"><strong>1 day</strong><span>to launch: embed the widget, invite residents, done</span></div>
+      <div class="fig"><strong>$199/mo</strong><span>per community &middot; unlimited team seats</span></div>
+      <div class="fig"><strong>$149</strong><span>per attributed signed lease</span></div>
+      <div class="fig"><strong>&lt;1 hour</strong><span>of your team&rsquo;s time to install</span></div>
     </div>
-    <p class="note">Because part of our fee is per attributed lease, our incentive matches yours: signed leases, not seats or logins. Pilot pricing is available for the first communities in each portfolio.</p>
+    <ul class="price-points" aria-label="Pricing highlights">
+      <li>We earn more only when you lease</li>
+      <li>Free migration included</li>
+      <li>Portfolio pilot pricing available</li>
+    </ul>
   </div>
 </section>
 
@@ -350,14 +373,26 @@
       <summary>We already use a resident-chat tool. Why switch?</summary>
       <p>Migration is free and takes a day. You get per-lease pricing, attribution your VP can audit, and AI insights included, from a team focused only on this product.</p>
     </details>
+    <details>
+      <summary>We already have a chat widget on our site. Is this the same thing?</summary>
+      <p>No. Most chat widgets connect prospects with your leasing team or an AI assistant. ResThreads connects them privately with verified residents, so they can hear what living at your community is really like. It can work alongside your existing leasing or support chat.</p>
+    </details>
   </div>
 </section>
 
 <section class="final" id="preview">
   <div class="wrap">
     <h2>See it wearing your community&rsquo;s branding.</h2>
-    <p>Send us one community&rsquo;s name and website. You&rsquo;ll get a private preview link within a day: your branding, your photos, a live widget. No call required.</p>
-    <a class="btn btn-primary" href="mailto:hello@resthreads.com?subject=Branded%20preview%20request">Request a branded preview</a>
+    <p>Paste a community website and we&rsquo;ll create a live preview using its name, colors, and floor plans. No call required.</p>
+    <form class="preview-form" id="preview-form">
+      <div>
+        <label for="site-url">Community website</label>
+        <input id="site-url" name="url" type="text" inputmode="url" autocomplete="url" required placeholder="thebowery-apts.com">
+      </div>
+      <button class="btn btn-primary" type="submit">Create my preview</button>
+    </form>
+    <p class="preview-note">We read only public details from the website to personalize the preview.</p>
+    <p class="preview-status" id="preview-status" aria-live="polite" hidden></p>
   </div>
 </section>
 
@@ -367,5 +402,43 @@
     <span><a href="mailto:hello@resthreads.com">hello@resthreads.com</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy</a> &nbsp;&middot;&nbsp; <a href="/terms">Terms</a></span>
   </div>
 </footer>
+<script>
+  (() => {
+    const form = document.querySelector('#preview-form');
+    const status = document.querySelector('#preview-status');
+    const button = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const fields = new FormData(form);
+      const payload = Object.fromEntries(fields.entries());
+      const originalLabel = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Creating your preview…';
+      status.hidden = false;
+      status.textContent = 'Pulling in your community’s brand details…';
+
+      try {
+        const response = await fetch('/api/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error('Preview request failed');
+        const result = await response.json();
+        if (!result.slug) throw new Error('Preview record was not created');
+        const query = new URLSearchParams({ slug: result.slug, name: result.preview?.name || 'your community' });
+        window.location.assign('/choose/?' + query.toString());
+      } catch (error) {
+        status.textContent = 'We couldn’t create that preview just yet. Please check the website address and try again.';
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
+    });
+
+  })();
+</script>
 </body>
 </html>

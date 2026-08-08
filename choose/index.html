@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choose a ResThreads presentation</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/resthreads-icon-dark.svg" type="image/svg+xml">
+</head>
+<body>
+<style>
+  :root{--dark:#1e3a2b;--gold:#b98a2f;--paper:#fbfaf6;--ink:#202924;--muted:#637067;--line:#e0e5df;--sans:system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}main{min-height:100vh;max-width:1120px;margin:auto;padding:56px 24px 72px}.brand{display:flex;align-items:center;gap:8px;color:var(--dark);font:600 20px var(--serif)}.brand img{width:30px;height:30px}h1{max-width:650px;margin:58px 0 10px;font:500 clamp(38px,5vw,58px)/1.08 var(--serif);letter-spacing:-.025em}p{color:var(--muted);font-size:17px;line-height:1.55;max-width:620px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:42px}.card{appearance:none;width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;background:#fff;padding:22px;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s}.card:hover,.card:focus-visible{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 16px 38px rgba(25,48,34,.13);outline:none}.illustration{height:218px;border:1px solid #d9dfd9;border-radius:8px;background:#f4f6f2;position:relative;overflow:hidden}.browser{position:absolute;inset:18px;background:#fff;border:1px solid #dce1dc;border-radius:6px}.browser:before{content:"";display:block;height:18px;background:#edf0ec;border-bottom:1px solid #dce1dc}.lines{position:absolute;top:64px;left:18px;right:18px;height:90px;background:linear-gradient(#dbe4db 0 14px,transparent 14px 26px,#e9ede9 26px 38px,transparent 38px 50px,#e9ede9 50px 62px,transparent 62px)}.inline{position:absolute;left:32px;right:32px;bottom:18px;height:65px;border:3px solid var(--gold);border-radius:7px;background:rgba(255,255,255,.9)}.corner{position:absolute;right:11px;bottom:11px;width:94px;height:108px;border:3px solid var(--gold);border-radius:7px;background:#fff;box-shadow:0 8px 16px rgba(20,40,25,.2)}.corner:after,.inline:after{content:"Chat with residents";display:block;color:var(--dark);font-size:10px;font-weight:700;padding:11px}.card h2{margin:20px 0 4px;font-size:21px}.card p{margin:0;font-size:14.5px}.arrow{display:block;color:var(--dark);font-weight:700;margin-top:17px}@media(max-width:700px){main{padding-top:35px}.cards{grid-template-columns:1fr}h1{margin-top:42px}}
+</style>
+<main><div class="brand"><img src="/assets/resthreads-mark-on-light.svg" alt="">ResThreads</div><h1>How should the resident chat appear?</h1><p id="subtitle">Choose the presentation you want to explore. You can switch later—this is just a live installation preview.</p><div class="cards"><button class="card" data-mode="inline"><div class="illustration"><div class="browser"><div class="lines"></div><div class="inline"></div></div></div><h2>Inline widget</h2><p>A full resident directory placed directly in a page section, for visitors ready to browse and compare.</p><span class="arrow">See the inline version →</span></button><button class="card" data-mode="corner"><div class="illustration"><div class="browser"><div class="lines"></div><div class="corner"></div></div></div><h2>Compact corner widget</h2><p>A persistent conversation starter in the lower-right corner while visitors explore the site.</p><span class="arrow">See the compact corner version →</span></button></div></main>
+<script>
+  (() => {
+    const search = new URLSearchParams(location.search);
+    const slug = search.get('slug');
+    const name = search.get('name') || '';
+    if (name) document.querySelector('#subtitle').textContent = `Your live ${name} preview is ready. Choose how you want residents to meet prospects.`;
+    document.querySelectorAll('[data-mode]').forEach((button) => button.addEventListener('click', () => {
+      const destination = slug
+        ? `https://connect.campusthreads.co/preview/${encodeURIComponent(slug)}/${button.dataset.mode}`
+        : `https://connect.campusthreads.co/demo/${button.dataset.mode}`;
+      location.assign(destination);
+    }));
+  })();
+</script>
+</body>
+</html>
