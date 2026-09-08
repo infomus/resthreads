@@ -9,6 +9,8 @@
   const menu = document.getElementById('site-menu');
   const menuToggle = document.getElementById('menu-toggle');
   let chatOpen = false;
+  let inlineInView = false;
+  let popcardDismissed = false;
   let lastChatTrigger = null;
   const closeMenu = () => {
     menu.hidden = true;
@@ -65,12 +67,21 @@
     if (type === 'CT_PRXI') {
       event.source.postMessage({ type: 'CT_PTXI', url: window.location.href }, popcardOrigin);
       resize();
+      if (mode === 'inline') event.source.postMessage({ type: inlineInView ? 'CT_WIV' : 'CT_WOV' }, popcardOrigin);
     }
+    if (type === 'CT_PCTA' && mode === 'inline') document.getElementById('residents').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     if (type === 'CT_CWOR') setChatOpen(true);
     if (type === 'CT_CWCR') setChatOpen(false);
     if (type === 'CT_CWRZ') resize();
-    if (type === 'CT_CLOSE') { setChatOpen(false); popcard.hidden = true; }
+    if (type === 'CT_CLOSE') { setChatOpen(false); popcardDismissed = true; popcard.hidden = true; }
   });
+  if (mode === 'inline' && popcard) {
+    new IntersectionObserver(([entry]) => {
+      inlineInView = entry.isIntersecting;
+      popcard.hidden = popcardDismissed || inlineInView;
+      popcard.contentWindow?.postMessage({ type: inlineInView ? 'CT_WIV' : 'CT_WOV' }, popcardOrigin);
+    }, { threshold: 0.3 }).observe(widget);
+  }
   const video = document.getElementById('hero-video');
   const videoToggle = document.getElementById('video-toggle');
   if (window.innerWidth > 760 && !matchMedia('(prefers-reduced-motion: reduce)').matches && !navigator.connection?.saveData) {
