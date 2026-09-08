@@ -65,5 +65,25 @@
       "destination": "/preview/",
       "permanent": true
     }
+  ],
+  "headers": [
+    {
+      "source": "/branded-inline/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/branded-corner/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
   ]
 }
