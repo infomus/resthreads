@@ -39,7 +39,7 @@
     closeMenu();
     lastChatTrigger = trigger;
     if (mode === 'corner') setChatOpen(true, true);
-    else document.getElementById('residents').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    else scrollToWidget();
   }));
   closeButton?.addEventListener('click', () => setChatOpen(false));
   document.addEventListener('keydown', event => {
@@ -47,6 +47,11 @@
     if (!menu.hidden) { closeMenu(); menuToggle.focus(); }
     if (chatOpen) setChatOpen(false);
   });
+  const scrollToWidget = () => {
+    const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
+    const top = window.scrollY + widget.getBoundingClientRect().top - headerHeight - 12;
+    window.scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  };
   const resize = () => {
     const dimensions = { width: window.innerWidth, height: window.innerHeight };
     // The actual iframe width controls the widget layout; no legacy scaling.
@@ -69,7 +74,7 @@
       resize();
       if (mode === 'inline') event.source.postMessage({ type: inlineInView ? 'CT_WIV' : 'CT_WOV' }, popcardOrigin);
     }
-    if (type === 'CT_PCTA' && mode === 'inline') document.getElementById('residents').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    if (type === 'CT_PCTA' && mode === 'inline') scrollToWidget();
     if (type === 'CT_CWOR') setChatOpen(true);
     if (type === 'CT_CWCR') setChatOpen(false);
     if (type === 'CT_CWRZ') resize();
