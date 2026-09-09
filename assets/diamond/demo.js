@@ -12,9 +12,7 @@
   let inlineInView = false;
   let popcardDismissed = false;
   let lastChatTrigger = null;
-  let widgetReady = false;
-  let pendingOpen = false;
-  if (mode === 'corner') popcard.style.visibility = 'hidden';
+  const cornerChat = mode === 'corner' ? createCornerChat(widget, popcard, closeButton) : null;
   const closeMenu = () => {
     menu.hidden = true;
     menuToggle.setAttribute('aria-expanded', 'false');
@@ -29,15 +27,9 @@
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   const setChatOpen = (open, external = false) => {
     if (mode !== 'corner') return;
-    pendingOpen = open && external;
-    if (open && !widgetReady) return;
     chatOpen = open;
-    widget.hidden = !open;
-    document.body.classList.toggle('chat-is-open', open);
-    popcard.hidden = open && external;
-    closeButton.hidden = !(open && external);
-    if (open) widget.focus({ preventScroll: true });
-    else lastChatTrigger?.focus({ preventScroll: true });
+    cornerChat.setOpen(open, external);
+    if (!open) (lastChatTrigger?.hidden ? popcard : lastChatTrigger)?.focus({ preventScroll: true });
   };
   document.querySelectorAll('[data-chat]').forEach(trigger => trigger.addEventListener('click', event => {
     event.preventDefault();
@@ -69,11 +61,6 @@
     const fromPopcard = popcard && event.source === popcard.contentWindow && event.origin === popcardOrigin;
     if (!fromWidget && !fromPopcard) return;
     const type = event.data?.type;
-    if (fromWidget && type === 'CT_READY') {
-      widgetReady = true;
-      popcard.style.visibility = 'visible';
-      if (pendingOpen) setChatOpen(true, true);
-    }
     if (fromWidget && type === 'CT_RXI') {
       event.source.postMessage({ type: 'CT_TXI', url: window.location.href }, widgetOrigin);
       resize();
@@ -116,3 +103,94 @@
     }).observe(video);
   }
 })();
+
+// Keep a first-party entry point available even if either remote app fails to boot.
+// The real popcard replaces it only after BOTH apps confirm they rendered.
+function createCornerChat(widget, popcard, closeButton) {
+  const launcher = document.getElementById('chat-fallback');
+  const status = document.getElementById('chat-status');
+  const statusText = document.getElementById('chat-status-text');
+  const recovery = document.getElementById('chat-recovery');
+  const retry = document.getElementById('chat-retry');
+  const apps = [
+    { frame: widget, origin: 'https://connect.campusthreads.co', readyType: 'CT_READY' },
+    { frame: popcard, origin: 'https://ct-popcard.web.app', readyType: 'CT_POPCARD_READY' },
+  ].map(app => ({ ...app, url: app.frame.src, ready: false, attempts: 0, deadline: Date.now() + 15000 }));
+  let open = false;
+  let externalOpen = false;
+  let stopped = false;
+  let timer;
+  const render = () => {
+    const ready = apps[0].ready;
+    // Do not replace a button someone is about to click or has reached by keyboard.
+    const enhanced = ready && apps[1].ready && (launcher.hidden || !launcher.matches(':hover, :focus-within'));
+    const failed = !ready && ((apps[0].attempts >= 2 && Date.now() >= apps[0].deadline) || !navigator.onLine);
+    document.body.dataset.chatState = ready ? 'ready' : failed ? 'unavailable' : 'loading';
+    widget.hidden = !open || !ready;
+    status.hidden = !open || ready;
+    status.setAttribute('aria-busy', String(!failed));
+    const message = !navigator.onLine ? 'You’re offline. Reconnect to chat with a resident.'
+      : failed ? 'Chat is taking longer to connect. Please try again, or open it in a new tab.'
+      : 'Connecting you with The Diamond residents…';
+    if (statusText.textContent !== message) statusText.textContent = message;
+    recovery.hidden = !failed;
+    launcher.hidden = open || enhanced;
+    popcard.hidden = !enhanced || (open && externalOpen);
+    closeButton.hidden = !open || (enhanced && !externalOpen);
+    document.body.classList.toggle('chat-is-open', open);
+  };
+  const reload = app => {
+    if (app.ready) return; // Never interrupt an initialized widget or an active conversation.
+    app.attempts += 1;
+    app.deadline = Date.now() + 25000;
+    const url = new URL(app.url);
+    url.searchParams.set('ctRetry', String(Date.now()));
+    app.frame.src = url.href;
+  };
+  const poll = () => {
+    if (stopped) return;
+    apps.forEach(app => {
+      if (app.ready) return;
+      app.frame.contentWindow?.postMessage({ type: 'CT_STATUS_REQUEST' }, app.origin);
+      if (navigator.onLine && Date.now() >= app.deadline && app.attempts < 2) reload(app);
+    });
+    render();
+    if (navigator.onLine && apps.some(app => !app.ready && (app.attempts < 2 || Date.now() < app.deadline))) timer = setTimeout(poll, 1000);
+  };
+  const restart = () => {
+    clearTimeout(timer);
+    apps.forEach(app => {
+      if (app.ready) return;
+      app.attempts = 0;
+      if (navigator.onLine) reload(app);
+    });
+    poll();
+  };
+  window.addEventListener('message', event => {
+    const app = apps.find(item => event.source === item.frame.contentWindow && event.origin === item.origin);
+    if (!app || event.data?.type !== app.readyType || app.ready) return;
+    app.ready = true;
+    render();
+    if (app.frame === widget && open) widget.focus({ preventScroll: true });
+  });
+  retry.addEventListener('click', restart);
+  launcher.addEventListener('pointerleave', render);
+  launcher.addEventListener('blur', render);
+  window.addEventListener('online', restart);
+  window.addEventListener('offline', render);
+  // Suspend background work in bfcache and resume without resetting a ready conversation.
+  window.addEventListener('pagehide', () => { stopped = true; clearTimeout(timer); });
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) { stopped = false; poll(); }
+  });
+  poll();
+  return {
+    setOpen(value, external) {
+      open = value;
+      externalOpen = external;
+      if (!open) popcard.contentWindow?.postMessage({ type: 'CT_HOST_CLOSE' }, apps[1].origin);
+      render();
+      if (open) (apps[0].ready ? widget : closeButton).focus({ preventScroll: true });
+    },
+  };
+}
