@@ -12,6 +12,9 @@
   let inlineInView = false;
   let popcardDismissed = false;
   let lastChatTrigger = null;
+  let widgetReady = false;
+  let pendingOpen = false;
+  if (mode === 'corner') popcard.style.visibility = 'hidden';
   const closeMenu = () => {
     menu.hidden = true;
     menuToggle.setAttribute('aria-expanded', 'false');
@@ -26,6 +29,8 @@
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   const setChatOpen = (open, external = false) => {
     if (mode !== 'corner') return;
+    pendingOpen = open && external;
+    if (open && !widgetReady) return;
     chatOpen = open;
     widget.hidden = !open;
     document.body.classList.toggle('chat-is-open', open);
@@ -64,6 +69,11 @@
     const fromPopcard = popcard && event.source === popcard.contentWindow && event.origin === popcardOrigin;
     if (!fromWidget && !fromPopcard) return;
     const type = event.data?.type;
+    if (fromWidget && type === 'CT_READY') {
+      widgetReady = true;
+      popcard.style.visibility = 'visible';
+      if (pendingOpen) setChatOpen(true, true);
+    }
     if (fromWidget && type === 'CT_RXI') {
       event.source.postMessage({ type: 'CT_TXI', url: window.location.href }, widgetOrigin);
       resize();
