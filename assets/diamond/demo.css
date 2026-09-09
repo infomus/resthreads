@@ -6,3 +6,15 @@
 
 body[data-mode="inline"] #ct-popcard{width:370px;height:220px}
 @media(max-width:500px){body[data-mode="inline"] #ct-popcard{width:320px;height:164px}}
+
+.chat-fallback{position:fixed;bottom:25px;right:25px;z-index:52;display:flex;align-items:center;gap:18px;padding:18px 22px;background:#fff;color:var(--brown);border:1px solid #b5a38c;border-radius:16px;box-shadow:0 4px 18px #0003;font-size:17px;font-weight:600;max-width:calc(100vw - 24px)}
+.corner-widget{background:#fff}
+.chat-fallback svg{flex-shrink:0;color:var(--coral)}
+.chat-fallback:hover{background:#f7f4f0}
+.chat-status{background:#fff;color:var(--brown);padding:32px 26px;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+.chat-status h2{font-size:36px;margin:12px 0 20px}
+.chat-status p{color:#655d55;font-size:17px}
+.chat-status .eyebrow{color:#655d55}
+.chat-status .button{background:var(--brown);color:#fff}
+.chat-direct{display:block;font-size:14px;text-decoration:underline;text-underline-offset:4px;margin-top:22px}
+@media(max-width:760px){.chat-fallback{right:12px;bottom:17px;padding:14px 18px;font-size:15px}.chat-status{padding:24px}}
