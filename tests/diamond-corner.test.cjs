@@ -111,6 +111,20 @@ test('a failed popcard cannot hide a working chat, and retries never reload it',
   assert.equal(s.elements.get('chat-fallback').hidden, true);
 });
 
+test('the native launcher is not replaced under the pointer or keyboard focus', () => {
+  const s = setup();
+  const launcher = s.elements.get('chat-fallback');
+  launcher.matches = () => true;
+  s.ready(s.widget, 'CT_READY');
+  s.ready(s.popcard, 'CT_POPCARD_READY');
+  assert.equal(launcher.hidden, false);
+  assert.equal(s.popcard.hidden, true);
+  launcher.matches = () => false;
+  launcher.events.pointerleave();
+  assert.equal(launcher.hidden, true);
+  assert.equal(s.popcard.hidden, false);
+});
+
 test('late readiness is polled, untrusted messages ignored, and active UI never swapped', () => {
   const s = setup();
   s.tick(3000);

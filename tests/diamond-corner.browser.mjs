@@ -19,8 +19,15 @@ async function scenario(name, options, check) {
   let blockWidget = !!options.blockWidget;
   let widgetDocuments = 0;
   await context.route('https://resthreads.com/**', async route => {
-    if (live) return route.continue();
     const path = new URL(route.request().url()).pathname;
+    if (live) {
+      if (options.delayHost && path.endsWith('demo.js')) {
+        const response = await route.fetch();
+        await new Promise(resolve => setTimeout(resolve, 4000));
+        return route.fulfill({ response });
+      }
+      return route.continue();
+    }
     let file = path === '/branded-corner/diamond-rentals-demo' ? `${path}/index.html` : path;
     if (file === '/favicon.ico') return route.fulfill({ status: 204 });
     try {

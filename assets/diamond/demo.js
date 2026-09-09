@@ -29,7 +29,7 @@
     if (mode !== 'corner') return;
     chatOpen = open;
     cornerChat.setOpen(open, external);
-    if (!open) lastChatTrigger?.focus({ preventScroll: true });
+    if (!open) (lastChatTrigger?.hidden ? popcard : lastChatTrigger)?.focus({ preventScroll: true });
   };
   document.querySelectorAll('[data-chat]').forEach(trigger => trigger.addEventListener('click', event => {
     event.preventDefault();
@@ -129,9 +129,10 @@ function createCornerChat(widget, popcard, closeButton) {
     widget.hidden = !open || !ready;
     status.hidden = !open || ready;
     status.setAttribute('aria-busy', String(!failed));
-    statusText.textContent = !navigator.onLine ? 'You’re offline. Reconnect to chat with a resident.'
+    const message = !navigator.onLine ? 'You’re offline. Reconnect to chat with a resident.'
       : failed ? 'Chat is taking longer to connect. Please try again, or open it in a new tab.'
       : 'Connecting you with The Diamond residents…';
+    if (statusText.textContent !== message) statusText.textContent = message;
     recovery.hidden = !failed;
     launcher.hidden = open || enhanced;
     popcard.hidden = !enhanced || (open && externalOpen);
