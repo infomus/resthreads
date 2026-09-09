@@ -17,7 +17,13 @@ async function scenario(name, options, check) {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   let blockWidget = !!options.blockWidget;
+  let blockAuth = !!options.blockAuth;
+  let blockedAuthRequests = 0;
   let widgetDocuments = 0;
+  await context.route('https://identitytoolkit.googleapis.com/**', route => {
+    if (blockAuth) { blockedAuthRequests++; return route.abort(); }
+    return route.continue();
+  });
   await context.route('https://resthreads.com/**', async route => {
     const path = new URL(route.request().url()).pathname;
     if (live) {
@@ -63,7 +69,7 @@ async function scenario(name, options, check) {
   });
   try {
     await page.goto(target, { waitUntil: 'domcontentloaded' });
-    await check({ page, context, unblock: () => { blockWidget = false; }, documents: () => widgetDocuments });
+    await check({ page, context, unblock: () => { blockWidget = false; blockAuth = false; }, documents: () => widgetDocuments, authFailures: () => blockedAuthRequests });
     assert.deepEqual(errors, [], `${name}: browser errors`);
     console.log(`PASS ${name}`);
   } catch (error) {
@@ -121,6 +127,15 @@ try {
     await waitReady(page);
     await page.locator('#ct-popcard').waitFor({ state: 'visible' });
     assert.equal(documents(), 1, 'readiness probing should recover without reloading');
+  });
+  await scenario('failed authentication startup recovers', { blockAuth: true }, async ({ page, unblock, authFailures }) => {
+    await page.locator('#chat-fallback').click();
+    await page.waitForTimeout(2000);
+    assert.ok(authFailures() > 0, 'the authentication failure must actually be exercised');
+    assert.equal(await page.locator('#ct-widget').isVisible(), false);
+    unblock();
+    await waitReady(page);
+    assert.equal(await page.locator('#ct-widget').isVisible(), true);
   });
   await scenario('delayed host listener', { delayHost: true }, async ({ page }) => {
     await waitReady(page);
